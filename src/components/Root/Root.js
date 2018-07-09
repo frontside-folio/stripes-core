@@ -17,6 +17,7 @@ import { getQueryResourceKey, getCurrentModule } from '../../locationService';
 import Stripes from '../../Stripes';
 import RootWithIntl from '../../RootWithIntl';
 import SystemSkeleton from '../SystemSkeleton';
+import idleTimers  from '../IdleTimer'
 
 import './Root.css';
 
@@ -34,7 +35,8 @@ class Root extends Component {
     this.reducers = { ...initialReducers };
     this.epics = {};
     this.withOkapi = this.props.okapi.withoutOkapi !== true;
-
+    this.setidle = idleTimers.bind(this);
+    
     const { modules, history } = this.props;
     const appModule = getCurrentModule(modules, history.location);
     this.queryResourceStateKey = (appModule) ? getQueryResourceKey(appModule) : null;
@@ -81,6 +83,7 @@ class Root extends Component {
   }
 
   render() {
+    const rootdocument = document.getElementById('root');
     const { logger, store, epics, config, okapi, actionNames, token, disableAuth, currentUser, currentPerms, locale, timezone, plugins, bindings, discovery, translations, history, serverDown } = this.props;
 
     if (serverDown) {
@@ -104,6 +107,7 @@ class Root extends Component {
       locale,
       timezone,
       metadata,
+      setIdleTimer: (onActive,onIdle,timeout) => this.setidle(onActive,onIdle,timeout,rootdocument),
       setLocale: (localeValue) => { loadTranslations(store, localeValue); },
       setTimezone: (timezoneValue) => { store.dispatch(setTimezone(timezoneValue)); },
       plugins: plugins || {},
