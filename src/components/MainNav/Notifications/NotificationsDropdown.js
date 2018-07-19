@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment'; // eslint-disable-line import/no-extraneous-dependencies
+import { RootContext } from '@folio/stripes-core/src/components/Root/RootContext';
 import { Dropdown } from '@folio/stripes-components/lib/Dropdown';
 import DropdownMenu from '@folio/stripes-components/lib/DropdownMenu';
 import NotificationsButton from './NotificationsButton';
@@ -38,15 +39,19 @@ class NotificationsDropdown extends React.Component {
 
   render() {
     return (
+      // <RootContext.Provider value={{ blah: 7 }}>
       <Dropdown onToggle={this.handleToggle} open={this.state.dropdownOpen}>
         <NotificationsButton data-role="toggle" title="Notifications" notificationCount={0} selected={this.state.dropdownOpen} />
+        {/* <RootContext.Provider value={{ blah: 6 }}> */}
         <DropdownMenu data-role="menu" onToggle={this.handleToggle}>
           <this.connectedNotificationsMenu
             lastOpen={this.state.lastOpen}
             {...this.props}
           />
         </DropdownMenu>
+        {/* </RootContext.Provider> */}
       </Dropdown>
+      // </RootContext.Provider>
     );
   }
 }
