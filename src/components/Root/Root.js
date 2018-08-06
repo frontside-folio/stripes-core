@@ -19,7 +19,6 @@ import Stripes from '../../Stripes';
 import RootWithIntl from '../../RootWithIntl';
 import SystemSkeleton from '../SystemSkeleton';
 import idleTimers  from '../IdleTimer'
-
 import './Root.css';
 
 import { metadata } from 'stripes-config'; // eslint-disable-line
@@ -36,8 +35,7 @@ class Root extends Component {
     this.reducers = { ...initialReducers };
     this.epics = {};
     this.withOkapi = this.props.okapi.withoutOkapi !== true;
-    this.setidle = idleTimers.bind(this);
-    
+
     const { modules, history } = this.props;
     const appModule = getCurrentModule(modules, history.location);
     this.queryResourceStateKey = (appModule) ? getQueryResourceKey(appModule) : null;
@@ -108,7 +106,7 @@ class Root extends Component {
       locale,
       timezone,
       metadata,
-      setIdleTimer: (onActive,onIdle,timeout) => this.setidle(onActive,onIdle,timeout,rootdocument),
+      setIdleTimer: (onActive,onIdle,timeout) => idleTimers(onActive,onIdle,timeout,rootdocument),
       setLocale: (localeValue) => { loadTranslations(store, localeValue); },
       setTimezone: (timezoneValue) => { store.dispatch(setTimezone(timezoneValue)); },
       plugins: plugins || {},
