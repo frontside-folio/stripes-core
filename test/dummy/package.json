@@ -1,0 +1,19 @@
+{
+  "name": "@folio/ui-dummy",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "stripes": {
+    "type": "app",
+    "displayName": "Dummy",
+    "route": "/dummy",
+    "hasSettings": false,
+    "icons": [
+      {
+        "name": "app",
+        "alt": "Dummy",
+        "title": "Dummy"
+      }
+    ]
+  }
+}

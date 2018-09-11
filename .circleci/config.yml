@@ -29,13 +29,59 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: Lint
+          name: Lint JS
           command:
-            yarn lint
+            yarn eslint
+            --max-warnings=0
+            --format junit
+            --output-file ./artifacts/eslint/eslint.xml
       - store_test_results:
           path: ./artifacts
       - store_artifacts:
           path: ./artifacts
+
+  stylelint:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Set up artifacts directory
+          command: mkdir -p artifacts/stylelint
+      - run:
+          name: Lint CSS
+          command:
+            yarn --silent stylelint
+            --custom-formatter './node_modules/stylelint-junit-formatter' > ./artifacts/stylelint/stylelint.xml
+      - store_test_results:
+          path: ./artifacts
+      - store_artifacts:
+          path: ./artifacts
+
+  test-chrome:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Run tests
+          command:
+            yarn test
+            --coverage
+            --karma.singleRun
+            --karma.browsers=Chrome
+            --karma.reporters mocha junit
+            --karma.junitReporter.outputDir ../../artifacts/junit/karma
+      - store_test_results:
+          path: ./artifacts/junit
+      - store_artifacts:
+          name: Store junit test report
+          path: ./artifacts/junit
+      - store_artifacts:
+          name: Store code coverage report
+          path: ./artifacts/coverage/lcov.txt
 
 workflows:
   version: 2
@@ -43,5 +89,11 @@ workflows:
     jobs:
       - checkout-and-install
       - eslint:
+          requires:
+            - checkout-and-install
+      - stylelint:
+          requires:
+            - checkout-and-install
+      - test-chrome:
           requires:
             - checkout-and-install
