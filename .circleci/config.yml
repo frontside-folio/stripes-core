@@ -1,0 +1,44 @@
+version: 2.0
+
+jobs:
+  checkout-and-install:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - restore_cache:
+          key: package-v1-{{ checksum "package.lock" }}
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - persist_to_workspace:
+          root: ~/
+          paths: project
+      - save_cache:
+          key: package-v1-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/project/node_modules
+
+  eslint:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Lint
+          command:
+            yarn lint
+      - store_test_results:
+          path: ./artifacts
+      - store_artifacts:
+          path: ./artifacts
+
+workflows:
+  version: 2
+  push:
+    jobs:
+      - checkout-and-install
+      - eslint:
+          requires:
+            - checkout-and-install
