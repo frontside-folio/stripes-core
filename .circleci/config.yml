@@ -9,6 +9,9 @@ jobs:
       - restore_cache:
           key: package-v1-{{ checksum "package.json" }}
       - run:
+          name: Use FOLIO repository
+          command: npm config set @folio:registry https://repository.folio.org/repository/npm-folio/
+      - run:
           name: Install dependencies
           command: yarn install
       - persist_to_workspace:
