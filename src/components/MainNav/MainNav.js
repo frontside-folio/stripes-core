@@ -147,47 +147,38 @@ class MainNav extends Component {
       title: formatMsg({ id: 'stripes-core.settings' }),
     };
 
-    const selectedApp = modules.app.find(entry => pathname.startsWith(entry.route));
-    let firstNav;
-    let breadcrumbArray = []; // eslint-disable-line
+    let selectedApp = modules.app.find(entry => pathname.startsWith(entry.route));
 
     // Temporary solution until Settings becomes a standalone app
-    let settingsApp;
+    let settingsAppIsActive = false;
     const settingsMsg = formatMsg({ id: 'stripes-core.settings' });
     if (stripes.hasPerm('settings.enabled') && pathname.startsWith('/settings')) {
-      settingsApp = { displayName: settingsMsg, description: formatMsg({ id: 'stripes-core.folioSettings' }) };
-    }
-
-    if (breadcrumbArray.length === 0) {
-      firstNav = (
-        <NavGroup md="hide">
-          <a className={css.skipLink} href="#ModuleContainer" aria-label="Skip Main Navigation" title="Skip Main Navigation">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
-              <polygon style={{ fill: '#999' }} points="13 16.5 1.2 5.3 3.2 3.1 13 12.4 22.8 3.1 24.8 5.3 " />
-              <polygon style={{ fill: '#999' }} points="13 24.8 1.2 13.5 3.2 11.3 13 20.6 22.8 11.3 24.8 13.5 " />
-            </svg>
-          </a>
-          <CurrentApp
-            id="ModuleMainHeading"
-            currentApp={selectedApp || settingsApp}
-            iconData={settingsApp && settingsIconData}
-          />
-        </NavGroup>
-      );
-    } else {
-      firstNav = (
-        <NavGroup>
-          <NavButton md="hide" />
-          <Breadcrumbs linkArray={breadcrumbArray} />
-        </NavGroup>
-      );
+      settingsAppIsActive = true;
+      selectedApp = {
+        displayName: settingsMsg,
+        description: formatMsg({ id: 'stripes-core.folioSettings' }),
+        home: '/settings'
+      };
     }
 
     return (
       <LastVisitedContext.Consumer>
         {({ lastVisited }) => (
           <header className={css.navRoot}>
-            {firstNav}
+          <NavGroup md="hide">
+            <a className={css.skipLink} href="#ModuleContainer" aria-label="Skip Main Navigation" title="Skip Main Navigation">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+                <polygon style={{ fill: '#999' }} points="13 16.5 1.2 5.3 3.2 3.1 13 12.4 22.8 3.1 24.8 5.3 " />
+                <polygon style={{ fill: '#999' }} points="13 24.8 1.2 13.5 3.2 11.3 13 20.6 22.8 11.3 24.8 13.5 " />
+              </svg>
+            </a>
+            <CurrentApp
+              id="ModuleMainHeading"
+              currentApp={selectedApp}
+              iconData={settingsAppIsActive && settingsIconData}
+              href={selectedApp.home || selectedApp.route}
+            />
+          </NavGroup>
             <nav>
               <Headline tag="h2" className="sr-only">
                 <FormattedMessage id="stripes-core.mainNavigation" />
