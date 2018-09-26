@@ -27,10 +27,17 @@ module.exports = (config) => {
         browser: 'safari',
         browser_version: '11.1'
       },
-      bs_ieEdge_windows: {
+      bs_edge_windows: {
         base: 'BrowserStack',
         browser: 'edge',
         browser_version: '15.0',
+        os: 'Windows',
+        os_version: '10'
+      },
+      bs_ie_windows: {
+        base: 'BrowserStack',
+        browser: 'ie',
+        browser_version: '11',
         os: 'Windows',
         os_version: '10'
       }
