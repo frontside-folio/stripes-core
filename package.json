@@ -23,6 +23,7 @@
   "engines": {
     "node": ">=8.9.4"
   },
+  "browserslist": "> 0.25%, not dead",
   "stripes": {
     "okapiInterfaces": {
       "users-bl": "3.0",
