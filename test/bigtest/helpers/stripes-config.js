@@ -2,6 +2,9 @@ import * as stripes from 'stripes-config';
 
 const { assign, keys } = Object;
 
+const originalModules = assign({}, stripes.modules);
+const originalMeta = assign({}, stripes.metadata);
+
 export function withModule({
   name,
   module,
@@ -50,8 +53,9 @@ export function clearModules() {
     delete stripes.modules[type];
   });
 
-  // app is required
-  stripes.modules.app = [];
+  // restore initial modules and metadata
+  assign(stripes.modules, originalModules);
+  assign(stripes.metadata, originalMeta);
 }
 
 const originalConfig = assign({}, stripes.config);
@@ -61,5 +65,11 @@ export function withConfig(config) {
 }
 
 export function clearConfig() {
+  // delete existing config
+  keys(stripes.config).forEach(key => {
+    delete stripes.config[key];
+  });
+
+  // restore initial config
   assign(stripes.config, originalConfig);
 }
