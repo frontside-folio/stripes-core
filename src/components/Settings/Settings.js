@@ -51,7 +51,7 @@ class Settings extends React.Component {
         const connect = connectFor(m.module, stripes.epics, stripes.logger);
         return {
           module: m,
-          Component: connect(m.getModule()),
+          Component: m.getModule(),
           moduleStripes: stripes.clone({ connect }),
         };
       });
