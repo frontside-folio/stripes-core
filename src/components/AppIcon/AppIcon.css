@@ -2,7 +2,7 @@
  * AppIcon
  */
 
-@import '../variables';
+@import '@folio/stripes-components/lib/variables.css';
 
 /**
  * Icon

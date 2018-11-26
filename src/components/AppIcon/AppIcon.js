@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { result } from 'lodash';
 import classNames from 'classnames';
-import { withStripes } from '@folio/stripes-core/src/StripesContext';
+import { withStripes } from '../StripesContext';
 import css from './AppIcon.css';
 
 const AppIcon = ({
@@ -47,8 +47,8 @@ const AppIcon = ({
 
       // Use PNGs (if available) for small app icons on non-retina screens
       const isRetina = window.matchMedia(`
-        (-webkit-min-device-pixel-ratio: 2), 
-        (min-device-pixel-ratio: 2), 
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-device-pixel-ratio: 2),
         (min-resolution: 192dpi)
       `).matches;
 
