@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { result } from 'lodash';
 import classNames from 'classnames';
-import { withStripes } from '../StripesContext';
+import { withStripes } from '../../StripesContext';
 import css from './AppIcon.css';
 
 const AppIcon = ({
