@@ -5,7 +5,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const postCssImport = require('postcss-import');
 const autoprefixer = require('autoprefixer');
-const postCssCustomProperties = require('postcss-custom-properties');
 const postCssCalc = require('postcss-calc');
 const postCssNesting = require('postcss-nesting');
 const postCssCustomMedia = require('postcss-custom-media');
@@ -45,9 +44,6 @@ prodConfig.module.rules.push({
         plugins: () => [
           postCssImport(),
           autoprefixer(),
-          postCssCustomProperties({
-            preserve: false
-          }),
           postCssCalc(),
           postCssNesting(),
           postCssCustomMedia(),
